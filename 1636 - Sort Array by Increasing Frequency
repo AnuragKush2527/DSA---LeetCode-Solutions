@@ -1,0 +1,25 @@
+class Solution {
+public:
+    struct valueCompare {
+        bool operator()(pair<int, int> &x, pair<int, int> &y) {
+            if(x.second == y.second) return y.first > x.first;
+            return y.second < x.second;
+        }
+    };
+    vector<int> frequencySort(vector<int>& nums) {
+        priority_queue<pair<int, int>, vector<pair<int, int>>, valueCompare> min_heap;
+        unordered_map<int, int> map;
+        vector<int> res;
+        for(int i = 0; i < nums.size(); i++) map[nums[i]]++;
+        for(auto m : map) min_heap.push(m);
+        while(!min_heap.empty()) {
+            auto top = min_heap.top();
+            min_heap.pop();
+            while(top.second != 0) {
+                res.push_back(top.first);
+                top.second--;
+            }
+        }
+        return res;
+    }
+};
