@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int minSwaps(vector<int>& nums) {
+        int count = 0;
+        for(int& num : nums) {
+            if(num == 1) count++;
+        }
+        int i = 0, j = 0, count_one = 0;
+        while(j < count) {
+            if(nums[j] == 1) count_one++;
+            j++;
+        }
+        int res = nums.size();
+        res = min(res, count - count_one);
+        if(nums.size() == count) return 0;
+        while(i < nums.size()) {
+            if(nums[i] == 1) count_one--;
+            if(nums[j] == 1) count_one++;
+            res = min(res, count - count_one);
+            i++;
+            j = (j + 1) % nums.size();
+        }
+        return res;
+    }
+};
