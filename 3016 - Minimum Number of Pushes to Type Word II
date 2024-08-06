@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int minimumPushes(string word) {
+        unordered_map<char, int> map;
+        for(char& w : word) map[w]++;
+        vector<pair<int, int>> v;
+        for(auto& m : map) v.push_back({m.second, m.first});
+        sort(v.rbegin(), v.rend());
+        int res = 0, d = 1, c = 0;
+        for(int i = 0; i < v.size(); i++) {
+            if(c == 8) {
+                d++;
+                c = 0;
+            }
+            res += (d * v[i].first); 
+            c++;
+        }
+        return res;
+    }
+};
