@@ -1,0 +1,36 @@
+class Solution {
+private:
+    bool magic(vector<vector<int>>& grid, int row, int col) {
+        int row1 = 0, row2 = 0, row3 = 0, col1 = 0, col2 = 0, col3 = 0, d1 = 0, d2 = 0;
+        vector<int> visited(16, -1);
+        for(int i = row; i < row + 3; i++) {
+            for(int j = col; j < col + 3; j++) {
+                visited[grid[i][j]] = 1;
+                if(i == row) row1 += grid[i][j];
+                if(i == row + 1) row2 += grid[i][j];
+                if(i == row + 2) row3 += grid[i][j];
+                if(j == col) col1 += grid[i][j];
+                if(j == col + 1) col2 += grid[i][j];
+                if(j == col + 2) col3 += grid[i][j];
+            }
+        }
+        for(int i = 1; i < 10; i++) {
+            if(visited[i] == -1) return false;
+        }
+        d1 = grid[row][col] + grid[row + 1][col + 1] + grid[row + 2][col + 2];
+        d2 = grid[row + 2][col] + grid[row + 1][col + 1] + grid[row][col + 2];
+        if(row1 == row2 && row1 == row3 && row1 == col1 && row1 == col2 && row1 == col3 && row1 == d1 && row1 == d2) return true;
+        return false;
+    }
+public:
+    int numMagicSquaresInside(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        int count = 0;
+        for(int i = 0; i < m - 2; i++) {
+            for(int j = 0; j < n - 2; j++) {
+                if(magic(grid, i, j)) count++;
+            }
+        }
+        return count;
+    }
+};
