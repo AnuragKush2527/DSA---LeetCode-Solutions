@@ -1,0 +1,25 @@
+class Solution {
+private:
+    void search(vector<int>& candidates, int i, int target, vector<int>& par, vector<vector<int>>& all) {
+        if(target == 0) all.push_back(par);
+        else if(i >= candidates.size() || target < 0) {}
+        else {
+            for(int j = i; j < candidates.size(); j++) {
+                if(j > i && candidates[j] == candidates[j-1]) continue;
+                if(candidates[j] <= target) {
+                    par.push_back(candidates[j]);
+                    search(candidates, j + 1, target - candidates[j], par, all);
+                    par.pop_back();
+                }
+            }
+        }
+    }
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        vector<vector<int>> all;
+        vector<int> par;
+        search(candidates, 0, target, par, all);
+        return all;
+    }
+};
