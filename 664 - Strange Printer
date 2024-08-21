@@ -1,0 +1,21 @@
+class Solution {
+private:
+    int solve(int i, int j, string& s, vector<vector<int>>& dp) {
+        if(i > j) return 0;
+        else if(dp[i][j] != -1) return dp[i][j];
+        else {
+            int res = 1 + solve(i + 1, j, s, dp);
+            for(int k = i + 1; k <= j; k++) {
+                if(s[k] == s[i]) {
+                    res = min(res, solve(i, k - 1, s, dp) + solve(k + 1, j, s, dp));
+                }
+            }
+            return dp[i][j] = res;
+        }
+    }
+public:
+    int strangePrinter(string s) {
+        vector<vector<int>> dp(s.size(), vector<int> (s.size(), -1));
+        return solve(0, s.size() - 1, s, dp);
+    }
+};
