@@ -1,0 +1,39 @@
+typedef long long ll;
+
+class Solution {
+private:
+    ll generatePalindromeFromLeft(ll left, bool isEven) {
+        ll palindrome = left;
+        if(!isEven) left /= 10;
+        while(left > 0) {
+            palindrome = palindrome * 10 + left % 10;
+            left /= 10;
+        }
+        return palindrome;
+    }
+public:
+    string nearestPalindromic(string n) {
+        ll num = stoll(n);
+        if(num <= 10) return to_string(num - 1);
+        if(n == "999999999999999999") return "1000000000000000001";
+        ll left = stoll(n.substr(0, (n.size() + 1) / 2));
+        vector<ll> palindromes(5);
+        palindromes[0] = generatePalindromeFromLeft(left - 1, n.size() % 2 == 0);
+        palindromes[1] = generatePalindromeFromLeft(left, n.size() % 2 == 0);
+
+        if(left < 999999999) palindromes[2] = generatePalindromeFromLeft(left + 1, n.size() % 2 == 0);
+        else palindromes[2] = stoll("1" + string(n.size() - 1, '0') + "1");
+        palindromes[3] = pow(10, n.size() - 1) - 1;
+        palindromes[4] = pow(10, n.size()) + 1;
+        ll res = 0, diff = LLONG_MAX;
+        for(auto& pal : palindromes) {
+            if(pal == num) continue;
+            ll temp = abs(pal - num);
+            if(temp < diff || (temp == diff && pal < res)) {
+                res = pal;
+                diff = temp;
+            }
+        }
+        return to_string(res);
+    }
+};
