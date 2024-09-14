@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int max1 = *max_element(nums.begin(), nums.end());
+        int prev = nums[0], count = 1, res = 1;
+        for(int i = 1; i < nums.size(); i++) {
+            if(nums[i] == max1 && nums[i] == prev) {
+                count++;
+            }
+            else if(nums[i] != max1 && prev == max1) {
+                res = max(res, count);
+                count = 1;
+            }
+            prev = nums[i];
+        }
+        if(prev == max1) res = max(res, count);
+        return res;
+    }
+};
