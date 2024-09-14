@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> xorQueries(vector<int>& arr, vector<vector<int>>& queries) {
+        vector<int> prefix(arr.size());
+        prefix[0] = arr[0];
+        for(int i = 1; i < arr.size(); i++) {
+            prefix[i] = prefix[i - 1] ^ arr[i];
+        }
+        vector<int> res;
+        for(auto& query : queries) {
+            int left = query[0];
+            int right = query[1];
+            res.push_back(prefix[right] ^ (left == 0 ? 0 : prefix[left - 1]));
+        }
+        return res;
+    }
+};
