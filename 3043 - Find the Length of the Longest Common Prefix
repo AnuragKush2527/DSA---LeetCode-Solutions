@@ -1,0 +1,36 @@
+class Solution {
+private:
+    int findLength(int n) {
+        int temp = n, c = 0;
+        while(temp != 0) {
+            c++;
+            temp /= 10;
+        }
+        return c;
+    }
+public:
+    int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
+        unordered_map<int, int> map;
+        for(int i = 0; i < arr1.size(); i++) {
+            int temp = arr1[i];
+            while(temp != 0) {
+                map[temp]++;
+                temp /= 10;
+            }
+        }
+        int res = 0;
+        for(int i = 0; i < arr2.size(); i++) {
+            int temp = arr2[i];
+            while(temp != 0) {
+                if(map.find(temp) != map.end()) {
+                    res = max(res, findLength(temp));
+                    break;
+                }
+                else {
+                    temp /= 10;
+                }
+            }
+        }
+        return res;
+    }
+};
