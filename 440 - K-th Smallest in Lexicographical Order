@@ -1,0 +1,29 @@
+class Solution {
+private:
+    int solve(long long a, long long b, int n) {
+        int nums = 0;
+        while(a <= n) {
+            if(b <= n + 1) nums += b - a;
+            else nums += n + 1 - a;
+            a *= 10;
+            b *= 10;
+        }
+        return nums;
+    }
+public:
+    int findKthNumber(int n, int k) {
+        long long num = 1;
+        for(int i = 1; i < k; ) {
+            int nums = solve(num, num + 1, n);
+            if(i + nums <= k) {
+                i += nums;
+                num++;
+            }
+            else {
+                i++;
+                num *= 10;
+            }
+        }
+        return num;
+    }
+};
