@@ -1,0 +1,23 @@
+class Solution {
+private:
+    int solve(int i, string& s, unordered_map<string, bool>& map, vector<int>& dp) {
+        if(i == s.size()) return 0;
+        else if(dp[i] != -1) return dp[i];
+        else {
+            int mini = 1 + solve(i + 1, s, map, dp);
+            string temp = "";
+            for(int j = i; j < s.size(); j++) {
+                temp += s[j];
+                if(map.find(temp) != map.end()) mini = min(mini, solve(j + 1, s, map, dp));
+            }
+            return dp[i] = mini;
+        }
+    }
+public:
+    int minExtraChar(string s, vector<string>& dictionary) {
+        unordered_map<string, bool> map;
+        for(auto& d : dictionary) map[d] = true;
+        vector<int> dp(s.size(), -1);
+        return solve(0, s, map, dp);
+    }
+};
