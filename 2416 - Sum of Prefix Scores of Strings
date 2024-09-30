@@ -1,0 +1,37 @@
+class TrieNode {
+    int count;
+    unordered_map<char, TrieNode*> children;
+public:
+    TrieNode() {
+        this->count = 0;
+    }
+    void insert(string& word) {
+        TrieNode* cur = this;
+        for(auto& c : word) {
+            if(cur->children.find(c) == cur->children.end()) {
+                cur->children[c] = new TrieNode();
+            }
+            cur = cur->children[c];
+            cur->count++;
+        }
+    }
+    int search(string& word) {
+        int score = 0;
+        TrieNode* cur = this;
+        for(auto& c : word) {
+            cur = cur->children[c];
+            score += cur->count;
+        }
+        return score;
+    }
+};
+class Solution {
+public:
+    vector<int> sumPrefixScores(vector<string>& words) {
+        TrieNode* root = new TrieNode();
+        for(auto& word : words) root->insert(word);
+        vector<int> res;
+        for(auto& word : words) res.push_back(root->search(word));
+        return res;
+    }
+};
