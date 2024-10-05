@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        unordered_map<char, int> map1, map2;
+        for(auto c : s1) map1[c]++;
+        for(int i = 0; i < s2.size() && i < s1.size(); i++) {
+            map2[s2[i]]++;
+        }
+        if(map1 == map2) return true;
+        int l = 0, r = s1.size();
+        while(r < s2.size()) {
+            if(map2[s2[l]] > 1) map2[s2[l]]--;
+            else map2.erase(s2[l]);
+            map2[s2[r]]++;
+            if(map1 == map2) return true;
+            l++;
+            r++;
+        }
+        return false;
+    }
+};
