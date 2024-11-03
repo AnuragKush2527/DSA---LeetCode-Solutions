@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool rotateString(string s, string goal) {
+        int k = 0;
+        for(int i = 0; i < s.size(); i++) {
+            if(s[i] == goal[k]) {
+                k++;
+                int count = 1;
+                for(int j = (i + 1) % s.size(); j != i; j = (j + 1) % s.size()) {
+                    if(s[j] != goal[k]) {
+                        break;
+                    }
+                    count++;
+                    k++;
+                }
+                if(count == s.size()) return true;
+            }
+            k = 0;
+        }
+        return false;
+    }
+};
