@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string compressedString(string word) {
+        int count = 1;
+        char c = word[0];
+        string comp = "";
+        for(int i = 1; i < word.size(); i++) {
+            if(word[i] != c) {
+                comp += to_string(count) + c;
+                c = word[i];
+                count = 1;
+            }
+            else if(count == 9) {
+                comp += to_string(count) + c;
+                count = 1;
+            }
+            else count++;
+        }
+        comp += to_string(count) + c;
+        return comp;
+    }
+};
