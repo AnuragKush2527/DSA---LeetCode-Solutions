@@ -1,0 +1,28 @@
+class Solution {
+public:
+    long long continuousSubarrays(vector<int>& nums) {
+        unordered_map<int, int> map;
+        long long res = 0;
+        int i = 0;
+        for(int j = 0; j < nums.size(); j++) {
+            bool flag = true;
+            for(auto& m : map) {
+                if(abs(m.first - nums[j]) > 2) {
+                    flag = false;
+                    break;
+                }
+            }
+            if(!flag) {
+                if(map[nums[i]] > 1) map[nums[i]]--;
+                else map.erase(nums[i]);
+                i++;
+                j--;
+            }
+            else{
+                map[nums[j]]++;
+                res += (j - i + 1);
+            }
+        }
+        return res;
+    }
+};
